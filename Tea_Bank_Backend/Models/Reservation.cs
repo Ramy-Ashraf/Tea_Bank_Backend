@@ -8,7 +8,7 @@ namespace tea_bank.Models
     {
         public int Id { get; set; }
         
-        public string[] Services { get; set; }
+        public string Services { get; set; }
 
         public DateTime TimeSlot { get; set; } // .ToString("HH:mm")
 

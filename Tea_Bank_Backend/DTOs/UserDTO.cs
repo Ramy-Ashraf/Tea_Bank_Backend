@@ -19,7 +19,7 @@ namespace tea_bank.DTOs
 
         public string Password { get; set; }
 
-        public List<BankAccount> BankAccounts { get; set; }
+        public List<BankAccDTO> BankAccounts { get; set; }
 
         public List<Reservation>? Reservations { get; set; }
     }
