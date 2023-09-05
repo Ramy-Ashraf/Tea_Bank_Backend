@@ -15,52 +15,53 @@ namespace tea_bank.Services
             _context = context;
         }
 
-        public async Task<List<Guest>> AddAccount(BankAccDTO bankAcc)
+        public async Task<List<BankAccount>> AddAccount(BankAccDTO bankAcc)
         {
             var newBankAcc = new BankAccount
             {
                 Balance = bankAcc.Balance,
                 Currency = bankAcc.Currency,
                 Type = bankAcc.Type,
-                User = User.
-                
+                User = bankAcc.User
             };
 
-            
             _context.BankAccounts.Add(newBankAcc);
             await _context.SaveChangesAsync();
 
-            return await _context.Guests.ToListAsync();
+            return await _context.BankAccounts.ToListAsync();
         }
-        public async Task<List<Guest>> DeleteGuest(int id)
+
+        public async Task<List<BankAccount>> DeleteAccount(int id)
         {
-            var guest = await _context.Guests.FindAsync(id);
-            if (guest == null)
+            var bankAcc = await _context.BankAccounts.FindAsync(id);
+            if (bankAcc == null)
             {
                 return null;
             }
-            _context.Guests.Remove(guest);
+            _context.BankAccounts.Remove(bankAcc);
             await _context.SaveChangesAsync();
 
-            return await _context.Guests.ToListAsync();
+            return await _context.BankAccounts.ToListAsync();
         }
 
-        public async Task<List<Guest>> GetAllGuests()
+
+        public async Task<List<BankAccount>> GetAllAccounts()
         {
-            var guests = await _context.Guests.ToListAsync();
-            return guests;
+            var bankAcc = await _context.BankAccounts.ToListAsync();
+            return bankAcc;
         }
 
-        public async Task<Guest> GetGuestById(int id)
+        public async Task<BankAccount> GetAccountById(int id)
         {
-            var guest = await _context.Guests.FindAsync(id);
-            if (guest == null)
+            var bankAcc = await _context.BankAccounts.FindAsync(id);
+            if (bankAcc == null)
             {
                 return null;
             }
 
-            return guest;
+            return bankAcc;
         }
+
     }
 }
 

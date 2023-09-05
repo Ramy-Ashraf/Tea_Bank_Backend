@@ -34,7 +34,7 @@ namespace tea_bank.Services
             {
                 Id = b.Id,
                 //CustomerId = b.CustomerId,
-                DateOfOPening = b.DateOfOPening,
+               // DateOfOPening = b.DateOfOPening,
                 Balance = b.Balance,
                 Currency = b.Currency,
                 Type = b.Type,
