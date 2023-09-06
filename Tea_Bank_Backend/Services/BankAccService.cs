@@ -15,21 +15,6 @@ namespace tea_bank.Services
             _context = context;
         }
 
-        public async Task<List<BankAccount>> AddAccount(BankAccDTO bankAcc)
-        {
-            var newBankAcc = new BankAccount
-            {
-                Balance = bankAcc.Balance,
-                Currency = bankAcc.Currency,
-                Type = bankAcc.Type,
-                User = bankAcc.User
-            };
-
-            _context.BankAccounts.Add(newBankAcc);
-            await _context.SaveChangesAsync();
-
-            return await _context.BankAccounts.ToListAsync();
-        }
 
         public async Task<List<BankAccount>> DeleteAccount(int id)
         {

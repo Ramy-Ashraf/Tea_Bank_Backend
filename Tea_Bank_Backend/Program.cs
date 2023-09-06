@@ -2,6 +2,7 @@ global using tea_bank.Models;
 global using tea_bank.Data;
 using Microsoft.EntityFrameworkCore;
 using tea_bank.Services;
+using Tea_Bank_Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGuestService, GuestService>();
+builder.Services.AddScoped<IBankAccService, BankAccService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     )

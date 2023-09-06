@@ -11,6 +11,7 @@ namespace tea_bank.Services
         Task<List<User>> GetAllUsers();
         Task<User> GetUserById(int id);
         Task<List<User>> UpdateUser(int id, UserDTO user);
+        Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc);
 
     }
 }

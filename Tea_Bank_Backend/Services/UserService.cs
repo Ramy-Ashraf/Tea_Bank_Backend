@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tea_bank.Data;
 using tea_bank.DTOs;
+using tea_bank.Models;
 
 namespace tea_bank.Services
 {
@@ -120,6 +121,23 @@ namespace tea_bank.Services
             await _context.SaveChangesAsync();
 
             return await _context.Users.ToListAsync();
+        }
+
+        public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
+        {
+            Task<User> user = GetUserById(id);
+            var newBankAcc = new BankAccount
+            {
+                Balance = bankAcc.Balance,
+                Currency = bankAcc.Currency,
+                Type = bankAcc.Type,
+                User = await user
+            };
+            _context.BankAccounts.Add(newBankAcc);
+            /*bankAcc.User.set(user);*/ // Set the user for the bank account
+            await _context.SaveChangesAsync();
+
+            return await _context.BankAccounts.ToListAsync();
         }
     }
 }

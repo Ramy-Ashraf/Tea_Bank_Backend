@@ -19,7 +19,6 @@ namespace tea_bank.Models
         
         public string Type { get; set; }
 
-        [JsonIgnore]
         public User? User { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using tea_bank.DTOs;
 using tea_bank.Services;
+using Tea_Bank_Backend.Services;
 
 namespace tea_bank.Controllers
 {
@@ -62,6 +63,14 @@ namespace tea_bank.Controllers
             {
                 return NotFound("User not Found.");
             }
+
+            return Ok(result);
+        }
+
+        public async Task<ActionResult<List<BankAccount>>> AddAccount(int id, 
+            BankAccDTO bankAcc)
+        {
+            var result = await _userService.AddAccount(id, bankAcc);
 
             return Ok(result);
         }
