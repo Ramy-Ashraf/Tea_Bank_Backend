@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Tea_Bank_Backend.props" />
+</Project>
