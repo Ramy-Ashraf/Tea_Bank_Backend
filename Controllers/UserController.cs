@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Tea_Bank_Backend.DTOs;
 
 namespace tea_bank.Controllers
 {
@@ -87,7 +88,7 @@ namespace tea_bank.Controllers
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.FirstName = request.FirstName;
+            user.Email = request.Email;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
@@ -95,9 +96,9 @@ namespace tea_bank.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDTO request)
+        public async Task<ActionResult<string>> Login(UserLoginDTO request)
         {
-            if (user.FirstName != request.FirstName)
+            if (user.Email != request.Email)
             {
                 return BadRequest("User not found.");
             }
@@ -146,8 +147,8 @@ namespace tea_bank.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.FirstName),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, "Admin"),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
