@@ -25,7 +25,6 @@ namespace Tea_Bank_Backend.Services
                 TimeSlot = reservation.TimeSlot,
                 Date = reservation.Date
 
-
             };
             _context.Reservations.Add(newReservation);
             await _context.SaveChangesAsync();

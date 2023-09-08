@@ -34,7 +34,7 @@ namespace Tea_Bank_Backend.Controllers
 
                 return Ok(result);
             }
-            [HttpPost]
+            //[HttpPost]
             //public async Task<ActionResult<List<BankAccount>>> AddAccount(BankAccDTO bankAcc)
             //{
             //    var result = await _bankAccService.AddAccount(bankAcc);

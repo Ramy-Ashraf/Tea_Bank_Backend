@@ -67,13 +67,13 @@ namespace tea_bank.Controllers
             return Ok(result);
         }
 
-        public async Task<ActionResult<List<BankAccount>>> AddAccount(int id, 
-            BankAccDTO bankAcc)
-        {
-            var result = await _userService.AddAccount(id, bankAcc);
+        //public async Task<ActionResult<List<BankAccount>>> AddAccount(int id, 
+        //    BankAccDTO bankAcc)
+        //{
+        //    var result = await _userService.AddAccount(id, bankAcc);
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
     }
 }
