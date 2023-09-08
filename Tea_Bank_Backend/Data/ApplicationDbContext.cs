@@ -1,7 +1,7 @@
-﻿using tea_bank.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using Tea_Bank_Backend.Models;
 
 namespace tea_bank.Data
 {
@@ -14,5 +14,6 @@ namespace tea_bank.Data
         public DbSet<User> Users { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }
