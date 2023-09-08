@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using tea_bank.DTOs;
@@ -9,7 +10,7 @@ using Tea_Bank_Backend.Services;
 namespace Tea_Bank_Backend.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class ReservationController : ControllerBase
     {
 
@@ -21,12 +22,12 @@ namespace Tea_Bank_Backend.Controllers
             _reservation = reservation;
         }
 
-        [HttpGet("AllReservations")]
+        [HttpGet("AllReservations"), Authorize]
         public async Task<ActionResult<List<Reservation>>> GetALLReservations()
         {
             return await _reservation.GetALLReservations();
         }
-        [HttpGet("getById/{id}")]
+        [HttpGet("getById/{id}"), Authorize]
         public async Task<ActionResult<Reservation>> GetReservationById(int id)
         {
             var result = await _reservation.GetReservationByID(id);
@@ -37,14 +38,14 @@ namespace Tea_Bank_Backend.Controllers
 
             return Ok(result);
         }
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<ActionResult<List<Reservation>>> ADDReservation(ReservationDTO reservation)
         {
             var result = await _reservation.ADDReservation(reservation);
 
             return Ok(result);
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public async Task<ActionResult<List<Reservation>>> DeleteReservation(int id)
         {
             var result = await _reservation.DeleteReservation(id);
