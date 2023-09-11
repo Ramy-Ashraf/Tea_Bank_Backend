@@ -19,6 +19,10 @@ namespace tea_bank.DTOs
 
         public string Password { get; set; } = string.Empty;
 
+        //public byte[] PasswordHash { get; set; }
+
+        //public byte[] PasswordSalt { get; set; }
+
         public List<BankAccDTO> BankAccounts { get; set; }
 
         public List<Reservation>? Reservations { get; set; }

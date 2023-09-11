@@ -11,6 +11,7 @@ namespace Tea_Bank_Backend.DTOs
 
         public DateTime Date { get; set; } // .ToString("MM/dd/yyyy")
 
+        public int UserId { get; set; }
         
     }
 }

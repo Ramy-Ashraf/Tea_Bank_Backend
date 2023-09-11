@@ -23,7 +23,8 @@ namespace Tea_Bank_Backend.Services
             {
                 Services = reservation.Services,
                 TimeSlot = reservation.TimeSlot,
-                Date = reservation.Date
+                Date = reservation.Date,
+                UserId = reservation.UserId
 
             };
             _context.Reservations.Add(newReservation);

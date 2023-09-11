@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using tea_bank.Data;
 using tea_bank.DTOs;
 using tea_bank.Models;
+using Tea_Bank_Backend.Services;
 
 namespace tea_bank.Services
 {
@@ -11,11 +14,13 @@ namespace tea_bank.Services
     {
         //private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
+        private readonly IAuthService _AuthService;
 
-        public UserService(ApplicationDbContext context)
+        public UserService(ApplicationDbContext context, IAuthService authService)
         {
             //_mapper = mapper;
             _context = context;
+            _AuthService = authService;
         }
 
         public async Task<List<User>> AddUser(UserDTO user)
@@ -28,7 +33,8 @@ namespace tea_bank.Services
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Password = user.Password
+                Password = user.Password,
+                
             };
 
             var bankAccount = user.BankAccounts.Select(b => new BankAccount
@@ -51,6 +57,15 @@ namespace tea_bank.Services
                 Date = r.Date,
                 User = newUser
             }).ToList();
+
+            _AuthService.CreatePasswordHash(newUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            // convert PasswordHash and PasswordSalt to json
+            newUser.PasswordHash = passwordHash;
+            newUser.PasswordSalt = passwordSalt;
+            newUser.Email = user.Email;
+            newUser.RefreshToken = _AuthService.GenerateRefreshToken().Token;
+            newUser.TokenCreated = _AuthService.GenerateRefreshToken().Created;
+            newUser.TokenExpires = _AuthService.GenerateRefreshToken().Expires;
 
             newUser.BankAccounts = bankAccount;
             newUser.Reservations = reservation;
@@ -123,21 +138,21 @@ namespace tea_bank.Services
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
-        {
-            Task<User> user = GetUserById(id);
-            var newBankAcc = new BankAccount
-            {
-                Balance = bankAcc.Balance,
-                Currency = bankAcc.Currency,
-                Type = bankAcc.Type,
-                User = await user
-            };
-            _context.BankAccounts.Add(newBankAcc);
-            /*bankAcc.User.set(user);*/ // Set the user for the bank account
-            await _context.SaveChangesAsync();
+        //public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
+        //{
+        //    Task<User> user = GetUserById(id);
+        //    var newBankAcc = new BankAccount
+        //    {
+        //        Balance = bankAcc.Balance,
+        //        Currency = bankAcc.Currency,
+        //        Type = bankAcc.Type,
+        //        User = await user
+        //    };
+        //    _context.BankAccounts.Add(newBankAcc);
+        //    /*bankAcc.User.set(user);*/ // Set the user for the bank account
+        //    await _context.SaveChangesAsync();
 
-            return await _context.BankAccounts.ToListAsync();
-        }
+        //    return await _context.BankAccounts.ToListAsync();
+        //}
     }
 }

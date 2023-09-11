@@ -14,7 +14,11 @@ namespace tea_bank.Models
 
         public DateTime Date { get; set; } // .ToString("MM/dd/yyyy")
 
+        // add UserId as forign Key to User table
+        [ForeignKey("User")]
+        public int UserId { get; set; }
         [JsonIgnore]
-        public User? User { get; set; }
+        public User User { get; set; }
+        
     }
 }
