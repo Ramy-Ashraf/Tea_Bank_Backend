@@ -96,10 +96,6 @@ namespace tea_bank.Controllers
                 PasswordSalt = passwordSalt
             });
 
-            //user.Email = request.Email;
-            //user.PasswordHash = passwordHash;
-            //user.PasswordSalt = passwordSalt;
-            
             return Ok(request2);
         }
 
@@ -121,19 +117,6 @@ namespace tea_bank.Controllers
             return Ok(token);
         }
 
-
-        //private RefreshToken GenerateRefreshToken()
-        //{
-        //    var refreshToken = new RefreshToken
-        //    {
-        //        Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-        //        Expires = DateTime.Now.AddDays(7),
-        //        Created = DateTime.Now
-        //    };
-
-        //    return refreshToken;
-        //}
-
         private void SetRefreshToken(RefreshToken newRefreshToken)
         {
             var cookieOptions = new CookieOptions
@@ -148,46 +131,24 @@ namespace tea_bank.Controllers
             user.TokenExpires = newRefreshToken.Expires;
         }
 
-        //private string CreateToken(User user)
-        //{
-        //    List<Claim> claims = new List<Claim>
-        //    {
-        //        new Claim(ClaimTypes.Email, user.Email),
-        //        new Claim(ClaimTypes.Role, "Admin"),
-        //    };
+        // get current logged in user
+        [HttpGet("current"), Authorize]
 
-        //    var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-        //        _configuration.GetSection("AppSettings:Token").Value));
+        public async Task<ActionResult<User>> CurrentUser()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+            {
+                return NotFound("User not Found.");
+            }
 
-        //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            user.BankAccounts = _context.BankAccounts.Where(b => b.User.Id == user.Id).ToList();
+            user.Reservations = _context.Reservations.Where(r => r.User.Id == user.Id).ToList();
 
-        //    var token = new JwtSecurityToken(
-        //        claims: claims,
-        //        expires: DateTime.Now.AddDays(1),
-        //        signingCredentials: creds);
+            return Ok(user);
+        }   
 
-        //    var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-        //    return jwt;
-        //}
-
-        //private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        //{
-        //    using (var hmac = new HMACSHA512())
-        //    {
-        //        passwordSalt = hmac.Key;
-        //        passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        //    }
-        //}
-
-        //private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        //{
-        //    using (var hmac = new HMACSHA512(passwordSalt))
-        //    {
-        //        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        //        return computedHash.SequenceEqual(passwordHash);
-        //    }
-        //}
 
     }
 }

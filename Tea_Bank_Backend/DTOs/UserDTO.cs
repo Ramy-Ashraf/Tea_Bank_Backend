@@ -25,6 +25,6 @@ namespace tea_bank.DTOs
 
         public List<BankAccDTO> BankAccounts { get; set; }
 
-        public List<Reservation>? Reservations { get; set; }
+        //public List<Reservation>? Reservations { get; set; }
     }
 }

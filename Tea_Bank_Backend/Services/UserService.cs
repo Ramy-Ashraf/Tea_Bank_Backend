@@ -48,15 +48,15 @@ namespace tea_bank.Services
                 User = newUser
             }).ToList();
 
-            var reservation = user.Reservations.Select(r => new Reservation
-            {
-                Id = r.Id,
-                //CustomerId = r.CustomerId,
-                Services = r.Services,
-                TimeSlot = r.TimeSlot,
-                Date = r.Date,
-                User = newUser
-            }).ToList();
+            //var reservation = user.Reservations.Select(r => new Reservation
+            //{
+            //    Id = r.Id,
+            //    //CustomerId = r.CustomerId,
+            //    Services = r.Services,
+            //    TimeSlot = r.TimeSlot,
+            //    Date = r.Date,
+            //    User = newUser
+            //}).ToList();
 
             _AuthService.CreatePasswordHash(newUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             // convert PasswordHash and PasswordSalt to json
@@ -68,7 +68,7 @@ namespace tea_bank.Services
             newUser.TokenExpires = _AuthService.GenerateRefreshToken().Expires;
 
             newUser.BankAccounts = bankAccount;
-            newUser.Reservations = reservation;
+            //newUser.Reservations = reservation;
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
