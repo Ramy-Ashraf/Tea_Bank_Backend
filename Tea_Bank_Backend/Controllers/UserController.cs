@@ -96,6 +96,12 @@ namespace tea_bank.Controllers
                 PasswordSalt = passwordSalt
             });
 
+            //// if email already exists
+            //if (await _context.Users.AnyAsync(u => u.Email == request.Email))
+            //{
+            //    return BadRequest("Email already Used.");
+            //}
+
             return Ok(request2);
         }
 
@@ -147,8 +153,34 @@ namespace tea_bank.Controllers
             user.Reservations = _context.Reservations.Where(r => r.User.Id == user.Id).ToList();
 
             return Ok(user);
-        }   
+        }
 
+        // update current logged in user
+        [HttpPut("current"), Authorize]
+        public async Task<ActionResult<User>> UpdateCurrentUser(UserDTO user)
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var result = await _userService.UpdateCurrentUser(email, user);
+            if (result is null)
+            {
+                return NotFound("User not Found.");
+            }
 
+            return Ok(result);
+        }
+
+        // delete current logged in user
+        [HttpDelete("current"), Authorize]
+        public async Task<ActionResult<User>> DeleteCurrentUser()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var result = await _userService.DeleteCurrentUser(email);
+            if (result is null)
+            {
+                return NotFound("User not Found.");
+            }
+
+            return Ok(result);
+        }
     }
 }

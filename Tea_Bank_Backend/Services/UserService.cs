@@ -70,6 +70,12 @@ namespace tea_bank.Services
             newUser.BankAccounts = bankAccount;
             //newUser.Reservations = reservation;
 
+            // if email is aleady taken, return null
+            if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+            {
+                return null;
+            }
+
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
@@ -133,9 +139,66 @@ namespace tea_bank.Services
             userToUpdate.PhoneNumber = user.PhoneNumber;
             userToUpdate.Password = user.Password;
 
+            // if password is updated, update password hash and salt
+            if (!string.IsNullOrWhiteSpace(user.Password))
+            {
+                _AuthService.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                userToUpdate.PasswordHash = passwordHash;
+                userToUpdate.PasswordSalt = passwordSalt;
+            }
+
             await _context.SaveChangesAsync();
 
             return await _context.Users.ToListAsync();
+        }
+
+        async Task<User> IUserService.DeleteCurrentUser(string email)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user is null)
+            {
+                return null;
+            }
+
+            _context.Users.Remove(user);
+            _context.BankAccounts.RemoveRange(_context.BankAccounts.Where(b => b.User.Id == user.Id));
+            _context.Reservations.RemoveRange(_context.Reservations.Where(r => r.User.Id == user.Id));
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        async Task<User> IUserService.UpdateCurrentUser(string email, UserDTO user)
+        {
+            var userToUpdate = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (userToUpdate is null)
+            {
+                return null;
+            }
+            userToUpdate.NationalId = user.NationalId;
+            userToUpdate.FirstName = user.FirstName;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Email = user.Email;
+            userToUpdate.PhoneNumber = user.PhoneNumber;
+            userToUpdate.Password = user.Password;
+
+            // if password is updated, update password hash and salt
+            if (!string.IsNullOrWhiteSpace(user.Password))
+            {
+                _AuthService.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                userToUpdate.PasswordHash = passwordHash;
+                userToUpdate.PasswordSalt = passwordSalt;
+            }
+
+            // if email is aleady taken, return null
+            if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+            {
+                return null;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         //public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
