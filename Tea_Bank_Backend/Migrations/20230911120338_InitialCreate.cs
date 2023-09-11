@@ -45,7 +45,7 @@ namespace Tea_Bank_Backend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NationalId = table.Column<int>(type: "int", nullable: false),
+                    NationalId = table.Column<long>(type: "bigint", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -70,7 +70,7 @@ namespace Tea_Bank_Backend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfOPening = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Balance = table.Column<int>(type: "int", nullable: false),
+                    Balance = table.Column<long>(type: "bigint", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)

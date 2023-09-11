@@ -13,7 +13,7 @@ namespace tea_bank.Models
         
         public DateTime DateOfOPening { get; set; }
         
-        public int Balance { get; set; }
+        public long Balance { get; set; }
         
         public string Currency { get; set; }
         

@@ -12,7 +12,7 @@ using tea_bank.Data;
 namespace Tea_Bank_Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230911105015_InitialCreate")]
+    [Migration("20230911120338_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -49,8 +49,8 @@ namespace Tea_Bank_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Balance")
-                        .HasColumnType("int");
+                    b.Property<long>("Balance")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Currency")
                         .IsRequired()
@@ -149,8 +149,8 @@ namespace Tea_Bank_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NationalId")
-                        .HasColumnType("int");
+                    b.Property<long>("NationalId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Password")
                         .IsRequired()

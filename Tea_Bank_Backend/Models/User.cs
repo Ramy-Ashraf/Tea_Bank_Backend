@@ -7,7 +7,7 @@ namespace tea_bank.Models
 
         public int Id { get; set; }
 
-        public int NationalId { get; set; }
+        public long NationalId { get; set; }
 
         public string FirstName { get; set; }
 

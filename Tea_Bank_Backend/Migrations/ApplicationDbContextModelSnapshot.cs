@@ -46,8 +46,8 @@ namespace Tea_Bank_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Balance")
-                        .HasColumnType("int");
+                    b.Property<long>("Balance")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Currency")
                         .IsRequired()
@@ -146,8 +146,8 @@ namespace Tea_Bank_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NationalId")
-                        .HasColumnType("int");
+                    b.Property<long>("NationalId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Password")
                         .IsRequired()

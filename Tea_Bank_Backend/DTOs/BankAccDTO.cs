@@ -9,7 +9,7 @@ namespace tea_bank.DTOs
 
         //public int CustomerId { get; set; }
 
-        public int Balance { get; set; }
+        public long Balance { get; set; }
 
         public string Currency { get; set; }
 
