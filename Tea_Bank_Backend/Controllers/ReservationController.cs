@@ -41,7 +41,7 @@ namespace Tea_Bank_Backend.Controllers
         [HttpPost, Authorize]
         public async Task<ActionResult<List<Reservation>>> ADDReservation(ReservationDTO reservation)
         {
-            var result = await _reservation.ADDReservation(reservation);
+            var result = await _reservation.AddReservation(reservation);
 
             return Ok(result);
         }

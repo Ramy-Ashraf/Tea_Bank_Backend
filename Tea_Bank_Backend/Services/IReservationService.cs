@@ -9,7 +9,7 @@ namespace Tea_Bank_Backend.Services
    
     public interface IReservationService
     {
-        Task<List<Reservation>> ADDReservation(ReservationDTO reservation);
+        Task<List<Reservation>> AddReservation(ReservationDTO reservation);
         Task<Reservation> GetReservationByID(int id);
         Task<List<Reservation>> GetALLReservations();
         Task<List<Reservation>> DeleteReservation(int id);

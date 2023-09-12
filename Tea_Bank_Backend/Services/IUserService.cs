@@ -14,7 +14,8 @@ namespace tea_bank.Services
         //Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc);
         
         Task<User> UpdateCurrentUser(string email, UserDTO user);
-        Task<User> DeleteCurrentUser(string email);
+        Task<User> DeleteCurrentUser(string email); 
+        Task<List<BankAccount>> GetCurrentUserBankAccounts(string email);
 
     }
 }

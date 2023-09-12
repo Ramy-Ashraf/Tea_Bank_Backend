@@ -168,6 +168,19 @@ namespace tea_bank.Services
             return user;
         }
 
+        Task<List<BankAccount>> IUserService.GetCurrentUserBankAccounts(string email)
+        {
+            // get current logged in user's bank accounts only
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user is null)
+            {
+                return null;
+            }
+            user.BankAccounts = _context.BankAccounts.Where(b => b.User.Id == user.Id).ToList();
+            
+            return Task.FromResult(user.BankAccounts);
+        }
+
         async Task<User> IUserService.UpdateCurrentUser(string email, UserDTO user)
         {
             var userToUpdate = _context.Users.FirstOrDefault(u => u.Email == email);
@@ -201,21 +214,5 @@ namespace tea_bank.Services
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        //public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
-        //{
-        //    Task<User> user = GetUserById(id);
-        //    var newBankAcc = new BankAccount
-        //    {
-        //        Balance = bankAcc.Balance,
-        //        Currency = bankAcc.Currency,
-        //        Type = bankAcc.Type,
-        //        User = await user
-        //    };
-        //    _context.BankAccounts.Add(newBankAcc);
-        //    /*bankAcc.User.set(user);*/ // Set the user for the bank account
-        //    await _context.SaveChangesAsync();
-
-        //    return await _context.BankAccounts.ToListAsync();
-        //}
     }
 }

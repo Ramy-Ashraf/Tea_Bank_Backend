@@ -17,7 +17,7 @@ namespace Tea_Bank_Backend.Services
         {
             _context = context;
         }
-        public async Task<List<Reservation>> ADDReservation(ReservationDTO reservation)
+        public async Task<List<Reservation>> AddReservation(ReservationDTO reservation)
         {
             var newReservation = new Reservation
             {
