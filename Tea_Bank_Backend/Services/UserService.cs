@@ -214,5 +214,21 @@ namespace tea_bank.Services
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
+        public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
+        {
+            Task<User> user = GetUserById(id);
+            var newBankAcc = new BankAccount
+            {
+                Balance = bankAcc.Balance,
+                Currency = bankAcc.Currency,
+                Type = bankAcc.Type,
+                User = await user
+            };
+            _context.BankAccounts.Add(newBankAcc);
+            /*bankAcc.User.set(user);*/ // Set the user for the bank account
+            await _context.SaveChangesAsync();
+
+            return await _context.BankAccounts.ToListAsync();
+        }
     }
 }
