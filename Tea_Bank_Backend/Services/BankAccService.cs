@@ -10,9 +10,12 @@ namespace tea_bank.Services
     public class BankAccService : IBankAccService
     {
         private readonly ApplicationDbContext _context;
+        //private readonly UserService _userService;
+
         public BankAccService(ApplicationDbContext context)
         {
             _context = context;
+            //_userService = userService;
         }
 
 
@@ -47,6 +50,22 @@ namespace tea_bank.Services
             return bankAcc;
         }
 
+        //public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
+        //{
+        //    Task<User> user = _userService.GetUserById(id);
+        //    var newBankAcc = new BankAccount
+        //    {
+        //        Balance = bankAcc.Balance,
+        //        Currency = bankAcc.Currency,
+        //        Type = bankAcc.Type,
+        //        User = await user
+        //    };
+        //    _context.BankAccounts.Add(newBankAcc);
+        //    /*bankAcc.User.set(user);*/ // Set the user for the bank account
+        //    await _context.SaveChangesAsync();
+
+        //    return await _context.BankAccounts.ToListAsync();
+        //}
     }
 }
 

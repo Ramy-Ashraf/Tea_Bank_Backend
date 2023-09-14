@@ -12,7 +12,7 @@ using tea_bank.Data;
 namespace Tea_Bank_Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230911120338_InitialCreate")]
+    [Migration("20230914220202_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

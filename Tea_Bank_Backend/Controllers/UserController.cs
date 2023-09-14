@@ -37,12 +37,7 @@ namespace tea_bank.Controllers
         {
             return await _userService.GetAllUsers();
         }
-        [HttpPost]
-        public async Task<ActionResult<List<BankAccount>>> AddAccount(int id, BankAccDTO bankAcc)
-        {
-            return await _userService.AddAccount(id, bankAcc);
-        }
-
+        
         [HttpGet("{id}"), Authorize]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
