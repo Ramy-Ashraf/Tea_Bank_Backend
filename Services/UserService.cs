@@ -5,20 +5,35 @@ using Microsoft.EntityFrameworkCore;
 using tea_bank.Data;
 using tea_bank.DTOs;
 using System.Security.Claims;
-
+using tea_bank.Models;
+using Google;
 
 namespace tea_bank.Services.UserService
 {
     public class UserService : IUserService
     {
+        public DbSet<Reservation> Reservations { get; set; }
+
         private readonly ApplicationDbContext _context;
 
         [PreferredConstructor] // This marks the ApplicationDbContext constructor as preferred
         public UserService(ApplicationDbContext context)
         {
+
             _context = context;
         }
 
+        public class ApplicationContext : DbContext
+        {
+            public DbSet<Reservation> Reservations { get; set; }
+            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            {
+                // Configure your database connection here
+                optionsBuilder.UseSqlServer("Server=DESKTOP-JNRMKCQ\\SQLSERVERDEV;Database=tea_bank;Trusted_Connection=true;TrustServerCertificate=true;");
+            }
+
+
+        }
 
 
 
@@ -33,7 +48,24 @@ namespace tea_bank.Services.UserService
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Password = user.Password
+                
             };
+           /* using (var context = new ApplicationContext())
+            {  
+      var reservationn = new Reservation
+         {
+             UserID = user.Id
+         };
+
+               // context.Reservations.Add(reservationn);
+                //context.SaveChanges();
+                //Console.WriteLine("Reservation added successfully!");
+
+
+
+            }*/
+
+
 
             var bankAccount = user.BankAccounts.Select(b => new BankAccount
             {
@@ -53,8 +85,16 @@ namespace tea_bank.Services.UserService
                 Services = r.Services,
                 TimeSlot = r.TimeSlot,
                 Date = r.Date,
-                User = newUser
+                User = newUser,
+                
             }).ToList();
+            var reservationn = new Reservation
+            {
+                UserID = user.Id
+            };
+            _context.Reservations.Add(reservationn);
+            _context.SaveChanges();
+            Console.WriteLine("Reservation added successfully!");
 
             newUser.BankAccounts = bankAccount;
             newUser.Reservations = reservation;

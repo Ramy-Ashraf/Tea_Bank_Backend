@@ -14,6 +14,8 @@ namespace tea_bank.Models
 
         public DateTime Date { get; set; } // .ToString("MM/dd/yyyy")
 
+        public int UserID { get; set; }
+
         [JsonIgnore]
         public User? User { get; set; }
     }
