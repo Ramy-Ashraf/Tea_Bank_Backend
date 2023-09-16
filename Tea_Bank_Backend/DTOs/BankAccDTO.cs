@@ -20,7 +20,7 @@ namespace tea_bank.DTOs
         [ForeignKey("User")]
         public int UserId { get; set; }
 
-        [JsonIgnore]
-        public User User { get; set; }
+        //[JsonIgnore]
+        //public User User { get; set; }
     }
 }
