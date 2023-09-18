@@ -4,6 +4,7 @@ using tea_bank.Data;
 using tea_bank.DTOs;
 using AutoMapper;
 using Tea_Bank_Backend.Services;
+using Tea_Bank_Backend.DTOs;
 
 namespace tea_bank.Services
 {
@@ -16,6 +17,21 @@ namespace tea_bank.Services
         {
             _context = context;
             //_userService = userService;
+        }
+        public async Task<List<BankAccount>> AddAccount(BankAccDTO bankAcc)
+        {
+            var newBankAccout = new BankAccount
+            {
+                DateOfOPening = DateTime.Now,
+                Balance = bankAcc.Balance,
+                Currency = bankAcc.Currency,
+                Type = bankAcc.Type
+
+            };
+            _context.BankAccounts.Add(newBankAccout);
+            await _context.SaveChangesAsync();
+
+            return await _context.BankAccounts.ToListAsync();
         }
 
 
@@ -50,22 +66,8 @@ namespace tea_bank.Services
             return bankAcc;
         }
 
-        //public async Task<List<BankAccount>> AddAccount(int id, BankAccDTO bankAcc)
-        //{
-        //    Task<User> user = _userService.GetUserById(id);
-        //    var newBankAcc = new BankAccount
-        //    {
-        //        Balance = bankAcc.Balance,
-        //        Currency = bankAcc.Currency,
-        //        Type = bankAcc.Type,
-        //        User = await user
-        //    };
-        //    _context.BankAccounts.Add(newBankAcc);
-        //    /*bankAcc.User.set(user);*/ // Set the user for the bank account
-        //    await _context.SaveChangesAsync();
 
-        //    return await _context.BankAccounts.ToListAsync();
-        //}
+
+
     }
 }
-

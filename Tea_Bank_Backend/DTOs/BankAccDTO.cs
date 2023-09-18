@@ -16,11 +16,8 @@ namespace tea_bank.DTOs
 
         public string Type { get; set; }
 
-        // add UserId as forign Key to User table
-        [ForeignKey("User")]
+        
         public int UserId { get; set; }
 
-        //[JsonIgnore]
-        //public User User { get; set; }
     }
 }

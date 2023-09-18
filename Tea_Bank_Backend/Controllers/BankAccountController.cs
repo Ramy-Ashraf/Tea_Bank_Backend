@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using tea_bank.DTOs;
+using tea_bank.Models;
+using tea_bank.Services;
+using Tea_Bank_Backend.DTOs;
 using Tea_Bank_Backend.Services;
-
 namespace Tea_Bank_Backend.Controllers
 {
     [Route("api/[controller]")]
@@ -13,13 +17,13 @@ namespace Tea_Bank_Backend.Controllers
         {
             _bankAccService = bankAccService;
         }
-        [HttpGet]
+        [HttpGet, Authorize]
         public async Task<ActionResult<List<BankAccount>>> GetAllAccounts()
         {
             return await _bankAccService.GetAllAccounts();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{Get by id}"), Authorize]
         public async Task<ActionResult<BankAccount>> GetAccountById(int id)
         {
             var result = await _bankAccService.GetAccountById(id);
@@ -31,13 +35,14 @@ namespace Tea_Bank_Backend.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("{id}")]
-        //public async Task<ActionResult<List<BankAccount>>> AddAccount(int id, BankAccDTO bankAcc)
-        //{
-        //    return await _bankAccService.AddAccount(id, bankAcc);
-        //}
+        [HttpPost, Authorize]
+        public async Task<ActionResult<List<BankAccount>>> AddAccount(BankAccDTO bankAcc)
+        {
+            var result = await _bankAccService.AddAccount(bankAcc);
+            return Ok(result);
+        }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{Delete by id}"), Authorize]
         public async Task<ActionResult<List<BankAccount>>> DeleteAccount(int id)
         {
             var result = await _bankAccService.DeleteAccount(id);
