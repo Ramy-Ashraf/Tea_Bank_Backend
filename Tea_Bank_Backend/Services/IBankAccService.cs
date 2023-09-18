@@ -11,5 +11,6 @@ namespace Tea_Bank_Backend.Services
         Task<List<BankAccount>> DeleteAccount(int id);
         Task<BankAccount> GetAccountById(int id);
         Task<List<BankAccount>> GetAllAccounts();
+        Task<List<BankAccount>> UpdateAccount(int id, BankAccDTO bankAcc);
     }
 }

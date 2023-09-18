@@ -181,6 +181,18 @@ namespace tea_bank.Services
             return Task.FromResult(user.BankAccounts);
         }
 
+        Task<List<BankAccount>> IUserService.GetCurrentUserReservations(string email)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user is null)
+            {
+                return null;
+            }
+            user.Reservations = _context.Reservations.Where(r => r.User.Id == user.Id).ToList();
+
+            return Task.FromResult(user.BankAccounts);
+        }
+
         async Task<User> IUserService.UpdateCurrentUser(string email, UserDTO user)
         {
             var userToUpdate = _context.Users.FirstOrDefault(u => u.Email == email);
@@ -203,7 +215,7 @@ namespace tea_bank.Services
                 userToUpdate.PasswordSalt = passwordSalt;
             }
 
-            // if email is aleady taken, return null
+            // if email is already taken, return null
             if (await _context.Users.AnyAsync(u => u.Email == user.Email))
             {
                 return null;

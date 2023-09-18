@@ -16,6 +16,7 @@ namespace tea_bank.Services
         Task<User> UpdateCurrentUser(string email, UserDTO user);
         Task<User> DeleteCurrentUser(string email); 
         Task<List<BankAccount>> GetCurrentUserBankAccounts(string email);
+        Task<List<BankAccount>> GetCurrentUserReservations(string email);
 
     }
 }

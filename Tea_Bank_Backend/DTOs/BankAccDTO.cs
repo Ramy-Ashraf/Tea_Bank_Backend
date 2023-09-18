@@ -16,7 +16,6 @@ namespace tea_bank.DTOs
 
         public string Type { get; set; }
 
-        
         public int UserId { get; set; }
 
     }

@@ -23,7 +23,7 @@ namespace Tea_Bank_Backend.Controllers
             return await _bankAccService.GetAllAccounts();
         }
 
-        [HttpGet("{Get by id}"), Authorize]
+        [HttpGet("{id}"), Authorize]
         public async Task<ActionResult<BankAccount>> GetAccountById(int id)
         {
             var result = await _bankAccService.GetAccountById(id);
@@ -42,10 +42,22 @@ namespace Tea_Bank_Backend.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{Delete by id}"), Authorize]
+        [HttpDelete("{id}"), Authorize]
         public async Task<ActionResult<List<BankAccount>>> DeleteAccount(int id)
         {
             var result = await _bankAccService.DeleteAccount(id);
+            if (result is null)
+            {
+                return NotFound("Bank Account not Found.");
+            }
+
+            return Ok(result);
+        }
+        // update account
+        [HttpPut("{id}"), Authorize]
+        public async Task<ActionResult<List<BankAccount>>> UpdateAccount(int id, BankAccDTO bankAcc)
+        {
+            var result = await _bankAccService.UpdateAccount(id, bankAcc);
             if (result is null)
             {
                 return NotFound("Bank Account not Found.");

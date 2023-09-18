@@ -25,8 +25,8 @@ namespace tea_bank.Services
                 DateOfOPening = DateTime.Now,
                 Balance = bankAcc.Balance,
                 Currency = bankAcc.Currency,
-                Type = bankAcc.Type
-
+                Type = bankAcc.Type,
+                UserId = bankAcc.UserId
             };
             _context.BankAccounts.Add(newBankAccout);
             await _context.SaveChangesAsync();
@@ -66,8 +66,23 @@ namespace tea_bank.Services
             return bankAcc;
         }
 
+        async Task<List<BankAccount>> IBankAccService.UpdateAccount(int id, BankAccDTO bankAcc)
+        {
+            var bankAccToUpdate = _context.BankAccounts.FindAsync(id);
+            if (bankAccToUpdate == null)
+            {
+                return null;
+            }
 
+            bankAccToUpdate.Result.Balance = bankAcc.Balance;
+            bankAccToUpdate.Result.Currency = bankAcc.Currency;
+            bankAccToUpdate.Result.Type = bankAcc.Type;
+            bankAccToUpdate.Result.UserId = bankAcc.UserId;
 
+            _context.BankAccounts.Update(bankAccToUpdate.Result);
+            _context.SaveChanges();
 
+            return await _context.BankAccounts.ToListAsync();
+        }
     }
 }

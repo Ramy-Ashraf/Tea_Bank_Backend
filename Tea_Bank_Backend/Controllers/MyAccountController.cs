@@ -17,13 +17,15 @@ namespace Tea_Bank_Backend.Controllers
         public static User user = new User();
         private readonly IUserService _userService;
         private readonly IAuthService _AuthService;
+        private readonly IBankAccService _bankAccService;
         private readonly ApplicationDbContext _context;
 
-        public MyAccountController(IUserService userService, IAuthService authService, ApplicationDbContext context)
+        public MyAccountController(IUserService userService, IAuthService authService, IBankAccService bankAccService, ApplicationDbContext context)
         {
             _userService = userService;
             _AuthService = authService;
             _context = context;
+            _bankAccService = bankAccService;
         }
 
         [HttpPost("register")]
@@ -134,18 +136,18 @@ namespace Tea_Bank_Backend.Controllers
 
             return Ok(result);
         }
-        // add bank account to current logged in user
-        //[HttpPost("current/bankaccounts"), Authorize]
-        //public async Task<ActionResult<List<BankAccount>>> AddAccount(BankAccDTO bankAcc)
-        //{
-        //    var email = User.FindFirst(ClaimTypes.Email)?.Value;
-        //    var result = await _userService.AddAccount(email, bankAcc);
-        //    if (result is null)
-        //    {
-        //        return NotFound("User not Found.");
-        //    }
+        // get current logged in user's Reservations
+        [HttpGet("current/reservations"), Authorize]
+        public async Task<ActionResult<List<Reservation>>> GetCurrentUserReservations()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var result = await _userService.GetCurrentUserReservations(email);
+            if (result is null)
+            {
+                return NotFound("User not Found.");
+            }
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
     }
 }
