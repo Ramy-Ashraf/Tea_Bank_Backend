@@ -63,6 +63,11 @@ builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
 
 var app = builder.Build();
 
+app.UseSwaggerUI(c =>
+{
+    c.DefaultModelExpandDepth(-1); // Add this line
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
